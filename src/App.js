@@ -10,11 +10,13 @@ function App() {
   const [ currentUser, setCurrentUser ] = useState("")
   const [ newTransaction, setNewTransaction ] = useState({ date: new Date(), amount: 0 })
 
+  //Brings the data based on selected user
   useEffect( () => {
     setLoadedData({...data})
     setUsers([...Object.keys(data)])
   }, [])
 
+  //To load data respective to the user
   const userSelect = (value) => {
     setCurrentUser(value)
     let userData = loadedData[value]
@@ -33,7 +35,7 @@ function App() {
         rewards: 0,
       }
     };
-
+  //Get month 1, 2, 3 amounts alone in an array
     for( let i = 0; i< userData.length; i++ ) {
       let month = new Date(userData[i]['date'])
       if( month.getMonth() + 1 == 1 || month.getMonth() + 1 == 2 || month.getMonth() + 1 == 3) {
@@ -41,6 +43,7 @@ function App() {
       }
     }
 
+    //Total month reward calculation
     for(let key in monthT) {
       console.log("monthT key", key)
       let total_month_rewards = 0;
@@ -57,6 +60,7 @@ function App() {
     setUserTransactions([...userData])
   }
 
+  //Reward points calculation based on each transaction
   function calRew(price) {
     if(price > 50 && price < 100){
       return 50
@@ -66,6 +70,7 @@ function App() {
       return 0
     }
   }
+  // the current input needs to take for the current transaction
   const updateInput = (e) => {
     if(e.target.name === "date") {
       setNewTransaction({ ...newTransaction, ...{ date: e.target.value } })
@@ -75,6 +80,7 @@ function App() {
     }
   }
 
+  //To make new transaction
   const btnAddtransaction = () => {
     let data = { ...loadedData }
     let month = new Date(newTransaction['date'])
