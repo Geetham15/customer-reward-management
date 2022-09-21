@@ -42,22 +42,25 @@ function App() {
     }
 
     for(let key in monthT) {
+      console.log("monthT key", key)
       let total_month_rewards = 0;
       for(let i = 0; i < monthT[key]['amounts'].length; i++) {
         let price = monthT[key]['amounts'][i]
+        console.log("price : ", price)
         total_month_rewards = total_month_rewards + calRew(price)
+        console.log("total month rewards: ", total_month_rewards)
       }
       monthT[key]['rewards'] = total_month_rewards;
     }
     console.log("monthT", monthT)
-    setCalcRewards([...monthT])
+    setCalcRewards({...monthT })
     setUserTransactions([...userData])
   }
 
   function calRew(price) {
     if(price > 50 && price < 100){
       return 50
-    } else if(price > 100){
+    } else if(price >= 100){
       return (2*(price - 100) + 50)
     } else {
       return 0
@@ -121,7 +124,7 @@ function App() {
               </tr>
               <tr>
                 <td>Total Rewards</td>
-                <td>{userRewards[1]['rewards']} + {userRewards[2]['rewards']} + {userRewards[3]['rewards']}</td>
+                <td>{userRewards[1]['rewards'] + userRewards[2]['rewards'] + userRewards[3]['rewards']}</td>
               </tr>
             </tbody>
           </table>
@@ -140,7 +143,7 @@ function App() {
                 return <tr key={index}>
                   <td>{item['date']}</td>
                   <td>{item['amount']}</td>
-                 {/* <td>{calRew(item['amount'])}</td> */}
+                  <td>{calRew(item['amount'])}</td> 
                 </tr>
               })}
             </tbody>
